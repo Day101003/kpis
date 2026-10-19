@@ -1,0 +1,123 @@
+/* ==========================================================
+   Tokens de diseño: colores, tipografía, radios y sombras.
+   Tema oscuro: por preferencia del sistema o con data-theme="dark".
+   ========================================================== */
+
+:root{
+  /* Superficies */
+  --bg:#f5f1e8;
+  --surface:#fffdf8;
+  --surface-2:#f8f4ea;
+  --ink:#1c2320;
+  --muted:#656961;
+  --line:#e4ddce;
+  --line-strong:#d2c8b3;
+
+  /* Marca: esmeralda y oro */
+  --accent:#1e5a48;
+  --accent-ink:#fffdf8;
+  --accent-soft:#e0ece4;
+  --gold:#7f6122;
+  --gold-bright:#c9a64e;
+  --gold-line:#d6bd80;
+  --gold-soft:#f4ebd3;
+
+  /* Semáforo */
+  --ok:#2a7549;   --ok-bg:#e0efe4;
+  --warn:#8f5c08; --warn-bg:#f7ebcf;
+  --bad:#b03636;  --bad-bg:#f7e0dd;
+  --none:#9a9b94;
+  --track:#ebe5d8;
+
+  /* Portada (siempre oscura) */
+  --hero-from:#0f2f27;
+  --hero-to:#24684f;
+  --hero-ink:#f6f0e2;
+  --hero-muted:#c3cfc7;
+  --hero-gold:#e3c47a;
+
+  /* Sombras */
+  --shadow-sm:0 1px 2px rgb(60 45 15 / .06);
+  --shadow:0 1px 2px rgb(60 45 15 / .05), 0 10px 28px -14px rgb(60 45 15 / .22);
+  --shadow-lg:0 2px 4px rgb(60 45 15 / .06), 0 24px 48px -22px rgb(20 40 30 / .45);
+
+  /* Forma */
+  --radius:16px;
+  --radius-sm:10px;
+  --nav-h:62px;
+
+  /* Tipografía */
+  --f-display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  color-scheme:light;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1412;
+    --surface:#151d1a;
+    --surface-2:#1a2420;
+    --ink:#ece6d8;
+    --muted:#a29e92;
+    --line:#27322e;
+    --line-strong:#38453f;
+
+    --accent:#6cc4a2;
+    --accent-ink:#0e1412;
+    --accent-soft:#1b352c;
+    --gold:#d6b464;
+    --gold-bright:#e6c77a;
+    --gold-line:#7a6634;
+    --gold-soft:#2c2617;
+
+    --ok:#72c993;   --ok-bg:#1a3325;
+    --warn:#e5ae47; --warn-bg:#382c13;
+    --bad:#ef8a84;  --bad-bg:#3b1f1e;
+    --none:#6f746d;
+    --track:#24302b;
+
+    --hero-from:#0a1c17;
+    --hero-to:#1b4a3b;
+
+    --shadow-sm:0 1px 2px rgb(0 0 0 / .35);
+    --shadow:0 1px 2px rgb(0 0 0 / .3), 0 12px 30px -14px rgb(0 0 0 / .65);
+    --shadow-lg:0 2px 4px rgb(0 0 0 / .3), 0 24px 50px -20px rgb(0 0 0 / .8);
+
+    color-scheme:dark;
+  }
+}
+
+:root[data-theme="dark"]{
+  --bg:#0e1412;
+  --surface:#151d1a;
+  --surface-2:#1a2420;
+  --ink:#ece6d8;
+  --muted:#a29e92;
+  --line:#27322e;
+  --line-strong:#38453f;
+
+  --accent:#6cc4a2;
+  --accent-ink:#0e1412;
+  --accent-soft:#1b352c;
+  --gold:#d6b464;
+  --gold-bright:#e6c77a;
+  --gold-line:#7a6634;
+  --gold-soft:#2c2617;
+
+  --ok:#72c993;   --ok-bg:#1a3325;
+  --warn:#e5ae47; --warn-bg:#382c13;
+  --bad:#ef8a84;  --bad-bg:#3b1f1e;
+  --none:#6f746d;
+  --track:#24302b;
+
+  --hero-from:#0a1c17;
+  --hero-to:#1b4a3b;
+
+  --shadow-sm:0 1px 2px rgb(0 0 0 / .35);
+  --shadow:0 1px 2px rgb(0 0 0 / .3), 0 12px 30px -14px rgb(0 0 0 / .65);
+  --shadow-lg:0 2px 4px rgb(0 0 0 / .3), 0 24px 50px -20px rgb(0 0 0 / .8);
+
+  color-scheme:dark;
+}
