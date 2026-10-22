@@ -52,12 +52,12 @@ function fichaText(k, inputs, meta){
     `Objetivo: ${k.obj}`,
     `Fórmula: ${k.formula}`,
     `Unidad: ${k.unit === 'pts' ? 'puntos (índice)' : k.unit}`,
-    `Meta: ${metaText(k, meta)}`,
+    ...(!k.fixed ? [`Meta: ${metaText(k, meta)}`] : []),
     `Frecuencia: ${k.freq}`,
     `Responsable: ${k.resp}`,
     `Fuente del dato: ${k.fuente}`,
     `Datos usados:`,
     datos,
-    `Valor actual: ${actual} (${STATUS_LABEL[kpiStatus(k, v, meta)]})`
+    k.fixed ? `Estimación inicial: ${actual} (no es una medición real)` : `Valor actual: ${actual} (${STATUS_LABEL[kpiStatus(k, v, meta)]})`
   ].join('\n');
 }

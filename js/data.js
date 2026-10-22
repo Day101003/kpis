@@ -13,7 +13,8 @@ const AREAS = [
   {key:'aten', short:'Consultas',   title:'Atención y consultas', quote:'La gente consulta mucho; sin paciencia se pueden perder ventas.'},
   {key:'deta', short:'Detalle',     title:'Atención al detalle',  quote:'La falta de atención al detalle es de lo que puede hacer fracasar el negocio.'},
   {key:'orde', short:'Inventario',  title:'Orden e inventario',   quote:'El desorden es una de las tres cosas que harían fracasar la empresa.'},
-  {key:'comp', short:'Competencia', title:'Competencia',          quote:'El informe que le haría la vida más fácil: entender a la competencia.'}
+  {key:'comp', short:'Competencia', title:'Competencia',          quote:'El informe que le haría la vida más fácil: entender a la competencia.'},
+  {key:'manual', short:'Joyería / Manual', title:'Joyería / Manual', quote:'La falta de atención al detalle, la falta de paciencia, el desorden y la incertidumbre sobre la nueva mercadería afectan la operación.'}
 ];
 
 const KPIS = [
@@ -28,7 +29,7 @@ const KPIS = [
     ],
     calc:v => v.b ? v.a / v.b * 100 : null,
     unit:'%', dec:1, dir:'up', meta:40, delta:10, min:0, max:100,
-    freq:'Por cada ingreso de mercadería', resp:'Dueña', fuente:'Registro de inventario y registro de ventas'
+    freq:'Por cada ingreso de mercadería', resp:'Dueño', fuente:'Registro de inventario y registro de ventas'
   },
   {
     id:'02', area:'merc', name:'Rotación de inventario',
@@ -41,7 +42,7 @@ const KPIS = [
     ],
     calc:v => (v.b + v.c) ? v.a / ((v.b + v.c) / 2) : null,
     unit:'veces/año', dec:1, dir:'up', meta:2, delta:0.5, min:0, max:4,
-    freq:'Trimestral (anualizado)', resp:'Dueña', fuente:'Registro de inventario (costos) y registro de ventas'
+    freq:'Trimestral (anualizado)', resp:'Dueño', fuente:'Registro de inventario (costos) y registro de ventas'
   },
   {
     id:'03', area:'merc', name:'Inventario estancado',
@@ -53,7 +54,7 @@ const KPIS = [
     ],
     calc:v => v.b ? v.a / v.b * 100 : null,
     unit:'%', dec:1, dir:'down', meta:20, delta:10, min:0, max:50,
-    freq:'Mensual', resp:'Dueña', fuente:'Registro de inventario (fecha de ingreso y fecha de venta)'
+    freq:'Mensual', resp:'Dueño', fuente:'Registro de inventario (fecha de ingreso y fecha de venta)'
   },
 
   // ---- Atención y consultas ----
@@ -105,7 +106,7 @@ const KPIS = [
     ],
     calc:v => v.b ? v.a / v.b * 100 : null,
     unit:'%', dec:1, dir:'down', meta:3, delta:2, min:0, max:10,
-    freq:'Mensual', resp:'Dueña', fuente:'Registro de ventas'
+    freq:'Mensual', resp:'Dueño', fuente:'Registro de ventas'
   },
   {
     id:'08', area:'deta', name:'Errores en encargos',
@@ -131,7 +132,7 @@ const KPIS = [
     ],
     calc:v => v.b ? v.a / v.b * 100 : null,
     unit:'%', dec:1, dir:'up', meta:98, delta:3, min:90, max:100,
-    freq:'Mensual (conteo físico)', resp:'Dueña', fuente:'Registro de inventario y conteo físico'
+    freq:'Mensual (conteo físico)', resp:'Dueño', fuente:'Registro de inventario y conteo físico'
   },
 
   // ---- Competencia ----
@@ -145,7 +146,7 @@ const KPIS = [
     ],
     calc:v => v.b ? v.a / v.b * 100 : null,
     unit:'pts', dec:1, dir:'range', range:[90, 110], warnRange:[80, 120], min:70, max:130,
-    freq:'Mensual', resp:'Dueña', fuente:'Visitas y revisión de redes de la competencia'
+    freq:'Mensual', resp:'Dueño', fuente:'Visitas y revisión de redes de la competencia'
   },
   {
     id:'11', area:'comp', name:'Ventas perdidas por competencia',
@@ -158,5 +159,55 @@ const KPIS = [
     calc:v => v.b ? v.a / v.b * 100 : null,
     unit:'%', dec:1, dir:'down', meta:20, delta:15, min:0, max:60,
     freq:'Mensual (vigilar tendencia)', resp:'Dependiente(s) de tienda', fuente:'Registro de consultas (motivo de no compra)'
+  },
+
+  // ---- Joyería / Manual ----
+  {
+    id:'12', area:'manual', name:'Atención al detalle', fixed:true,
+    obj:'Medir qué tan correctamente se revisan productos, precios, pedidos y características antes de atender o entregar. Estimación inicial: 70%; no es una medición real.',
+    formula:'(Interacciones sin error ÷ interacciones revisadas) × 100',
+    inputs:[
+      {key:'a', label:'Interacciones sin error', value:70},
+      {key:'b', label:'Interacciones revisadas', value:100}
+    ],
+    calc:v => v.b ? v.a / v.b * 100 : null,
+    unit:'%', dec:1, min:0, max:100,
+    freq:'Semanal', resp:'Dependiente(s) de tienda', fuente:'Revisión manual de interacciones; datos iniciales estimados'
+  },
+  {
+    id:'13', area:'manual', name:'Conversión de consultas en ventas', fixed:true,
+    obj:'Medir qué porcentaje de las consultas termina en una venta, para detectar posibles ventas perdidas por falta de paciencia al atender clientes. Estimación inicial: 35%; no es una medición real.',
+    formula:'(Consultas que terminaron en venta ÷ total de consultas) × 100',
+    inputs:[
+      {key:'a', label:'Consultas que terminaron en venta', value:35},
+      {key:'b', label:'Total de consultas', value:100}
+    ],
+    calc:v => v.b ? v.a / v.b * 100 : null,
+    unit:'%', dec:1, min:0, max:100,
+    freq:'Semanal', resp:'Dependiente(s) de tienda', fuente:'Registro de consultas; datos iniciales estimados'
+  },
+  {
+    id:'14', area:'manual', name:'Nivel de orden en la operación', fixed:true,
+    obj:'Medir el nivel de organización de productos, registros, vitrinas y espacios de trabajo. Estimación inicial: 60%; no es una medición real.',
+    formula:'(Elementos correctamente ordenados ÷ elementos revisados) × 100',
+    inputs:[
+      {key:'a', label:'Elementos correctamente ordenados', value:60},
+      {key:'b', label:'Elementos revisados', value:100}
+    ],
+    calc:v => v.b ? v.a / v.b * 100 : null,
+    unit:'%', dec:1, min:0, max:100,
+    freq:'Semanal', resp:'Dueño', fuente:'Lista de revisión manual del orden; datos iniciales estimados'
+  },
+  {
+    id:'15', area:'manual', name:'Aceptación de nueva mercadería', fixed:true,
+    obj:'Medir qué porcentaje de la mercadería nueva genera interés o ventas, para reducir la incertidumbre sobre si gustará a los clientes. Estimación inicial: 50%; no es una medición real.',
+    formula:'(Productos nuevos con interés o venta ÷ productos nuevos ingresados) × 100',
+    inputs:[
+      {key:'a', label:'Productos nuevos con interés o venta', value:50},
+      {key:'b', label:'Productos nuevos ingresados', value:100}
+    ],
+    calc:v => v.b ? v.a / v.b * 100 : null,
+    unit:'%', dec:1, min:0, max:100,
+    freq:'Por cada ingreso de mercadería', resp:'Dueño', fuente:'Registros de inventario, consultas y ventas (cada producto se cuenta una vez); datos iniciales estimados'
   }
 ];

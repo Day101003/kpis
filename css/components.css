@@ -255,6 +255,48 @@
 .copy .ico{ width:15px; height:15px }
 .copy:hover{ text-decoration:underline; text-underline-offset:3px }
 
+/* ---------- Resumen estático de Joyería / Manual ---------- */
+.manual-overview{ margin-top:24px }
+.manual-heading{
+  display:flex; align-items:center; flex-wrap:wrap; gap:12px 20px;
+  padding:20px 24px; margin-bottom:16px;
+  border-left:4px solid var(--gold-bright); border-radius:var(--radius-sm);
+  background:linear-gradient(110deg, var(--hero-from), var(--hero-to)); color:var(--hero-ink);
+}
+.manual-heading .eyebrow{ color:var(--hero-gold); font-size:10px }
+.manual-heading h2{ font-family:var(--f-display); font-weight:500; font-size:28px }
+.manual-caption{ margin-left:auto; font-size:12px; color:var(--hero-muted) }
+.manual-grid{ display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px; align-items:start }
+.manual-card{ padding:20px; gap:14px }
+.manual-card::before{ background:var(--gold-line) }
+.manual-card-top{ display:flex; align-items:center; justify-content:space-between; gap:8px }
+.manual-card h3{ min-height:2.6em; font-size:16px }
+.manual-card .pill{ font-size:10px; padding:4px 8px }
+.manual-gauge{ position:relative; width:164px; max-width:100%; aspect-ratio:1; margin:0 auto 8px }
+.manual-gauge svg{ display:block; width:100%; height:100%; fill:none; stroke-width:7 }
+.manual-track{ stroke:var(--track) }
+.manual-arc{ stroke:var(--accent); stroke-linecap:round }
+.manual-card:nth-child(even) .manual-arc{ stroke:var(--gold-bright) }
+.manual-gauge-value{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:7px }
+.manual-gauge-value .value b{ font-size:44px }
+.manual-gauge-value > span{ font-size:10px; color:var(--muted) }
+.manual-target{ display:flex; justify-content:space-between; gap:8px; font-size:11px; color:var(--muted) }
+.manual-target .target{ font-size:11px }
+.manual-card .meter{ margin-bottom:8px }
+.manual-details{ padding-top:12px; border-top:1px solid var(--line); font-size:12px }
+.manual-details summary{ cursor:pointer; color:var(--accent); font-weight:600 }
+.manual-details[open]{ display:grid; gap:14px }
+.manual-details[open] summary{ margin-bottom:14px }
+.manual-details .formula{ margin-block:14px; font-size:11px; overflow-wrap:anywhere }
+.manual-details .meta-row{ grid-template-columns:1fr; gap:5px; font-size:12px }
+.manual-details .copy{ margin-top:14px }
+@media (max-width:1050px){ .manual-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)) } }
+@media (max-width:540px){
+  .manual-grid{ grid-template-columns:1fr }
+  .manual-caption{ margin-left:0 }
+  .manual-card h3{ min-height:0 }
+}
+
 /* ---------- Registros ---------- */
 .rec{
   position:relative; overflow:hidden;

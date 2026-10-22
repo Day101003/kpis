@@ -7,7 +7,7 @@ function defaultState(){
   KPIS.forEach(k => {
     s.inputs[k.id] = {};
     k.inputs.forEach(i => { s.inputs[k.id][i.key] = i.value; });
-    if(k.dir !== 'range') s.metas[k.id] = k.meta;
+    if(!k.fixed && k.dir !== 'range') s.metas[k.id] = k.meta;
   });
   return s;
 }
@@ -17,6 +17,7 @@ function loadState(){
   try{
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
     if(saved) KPIS.forEach(k => {
+      if(k.fixed) return;
       if(saved.inputs && saved.inputs[k.id]) Object.assign(s.inputs[k.id], saved.inputs[k.id]);
       if(saved.metas && typeof saved.metas[k.id] === 'number') s.metas[k.id] = saved.metas[k.id];
     });

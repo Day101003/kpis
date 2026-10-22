@@ -8,7 +8,7 @@ const STATUS_RANK = {none:0, ok:1, warn:2, bad:3};
 function renderNav(){
   const links = [
     {id:'resumen', label:'Resumen'},
-    ...AREAS.map(a => ({id:`area-${a.key}`, label:a.short, area:a.key})),
+    ...AREAS.map(a => ({id:`area-${a.key}`, label:a.short, area:a.key === 'manual' ? null : a.key})),
     {id:'registros', label:'Datos'}
   ];
   document.getElementById('nav-links').innerHTML = links.map(l =>
@@ -17,8 +17,16 @@ function renderNav(){
 }
 
 function renderAreas(state){
-  document.getElementById('areas').innerHTML = AREAS.map((a, i) => {
+  const sections = AREAS.map((a, i) => {
     const kpis = KPIS.filter(k => k.area === a.key);
+    if(a.key === 'manual') return `
+    <section class="manual-overview" id="area-manual" aria-labelledby="h-manual">
+      <header class="manual-heading">
+        <div><div class="eyebrow">Resumen de indicadores</div><h2 id="h-manual">Joyería / Manual</h2></div>
+        <span class="manual-caption">Estimaciones iniciales · Sin mediciones reales</span>
+      </header>
+      <div class="manual-grid">${kpis.map(k => fixedCardHTML(k, state)).join('')}</div>
+    </section>`;
     return `
     <section class="area" id="area-${a.key}" aria-labelledby="h-${a.key}">
       <div class="area-head">
@@ -35,7 +43,30 @@ function renderAreas(state){
       </div>
       <div class="cards">${kpis.map(k => cardHTML(k, state)).join('')}</div>
     </section>`;
-  }).join('');
+  });
+  document.getElementById('featured-kpis').innerHTML = sections.filter((_, i) => AREAS[i].key === 'manual').join('');
+  document.getElementById('areas').innerHTML = sections.filter((_, i) => AREAS[i].key !== 'manual').join('');
+}
+
+function fixedCardHTML(k, state){
+  const v = kpiValue(k, state.inputs[k.id]);
+  return `
+  <article class="card manual-card" id="k${k.id}">
+    <h3>${k.name}</h3>
+    <div class="manual-gauge">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="manual-track" cx="60" cy="60" r="50"/>
+        <circle class="manual-arc" cx="60" cy="60" r="50" pathLength="100" stroke-dasharray="${v} ${100 - v}" transform="rotate(-90 60 60)"/>
+      </svg>
+      <div class="manual-gauge-value"><div class="value"><b data-val>${nf(v, 0)}</b><span>%</span></div><span>Estimación inicial</span></div>
+    </div>
+    <details class="manual-details"><summary>Acerca del indicador</summary>
+      <p class="obj">${k.obj}</p>
+      <div class="formula"><small>Fórmula</small>${k.formula}</div>
+      <dl class="meta-row"><dt>Frecuencia</dt><dd>${k.freq}</dd><dt>Responsable</dt><dd>${k.resp}</dd><dt>Fuente</dt><dd>${k.fuente}</dd></dl>
+      <button class="copy" type="button" data-copy="${k.id}">${ICON_COPY}Copiar ficha</button>
+    </details>
+  </article>`;
 }
 
 function cardHTML(k, state){
@@ -50,9 +81,9 @@ function cardHTML(k, state){
     </header>
     <p class="obj">${k.obj}</p>
     <div class="formula"><small>Fórmula</small>${k.formula}</div>
-    <div class="inputs${k.inputs.length === 3 ? ' three' : ''}">
+    ${k.fixed ? '' : `<div class="inputs${k.inputs.length === 3 ? ' three' : ''}">
       ${k.inputs.map(i => fieldHTML(k, i, inputs[i.key])).join('')}
-    </div>
+    </div>`}
     <div class="result">
       <div class="result-row">
         <div class="value"><b data-val>—</b><span>${unitLong(k.unit)}</span></div>
@@ -83,7 +114,7 @@ function fieldHTML(k, input, value){
 }
 
 function metaHTML(k, meta){
-  if(k.dir === 'range') return `<dd>${metaText(k, meta)}</dd>`;
+  if(k.fixed || k.dir === 'range') return `<dd>${metaText(k, meta)}</dd>`;
   return `<dd><span class="meta-edit">${k.dir === 'up' ? '≥' : '≤'} <input id="meta-${k.id}" type="number" inputmode="decimal" step="any" data-meta="${k.id}" value="${meta}" aria-label="Meta de ${k.name}"> ${unitShort(k.unit)}</span></dd>`;
 }
 
@@ -104,6 +135,10 @@ function updateView(state){
   KPIS.forEach(k => {
     const meta = state.metas[k.id];
     const v = kpiValue(k, state.inputs[k.id]);
+    if(k.fixed){
+      document.getElementById(`k${k.id}`).querySelector('[data-val]').textContent = v === null ? '—' : nf(v, 0);
+      return;
+    }
     const s = kpiStatus(k, v, meta);
 
     tally[s]++;
@@ -112,7 +147,7 @@ function updateView(state){
 
     const card = document.getElementById(`k${k.id}`);
     card.dataset.status = s;
-    card.querySelector('[data-val]').textContent = v === null ? '—' : nf(v, k.dec);
+    card.querySelector('[data-val]').textContent = v === null ? '—' : nf(v, k.fixed ? 0 : k.dec);
     card.querySelector('[data-target]').textContent = 'meta ' + metaText(k, meta).toLowerCase();
 
     const pill = card.querySelector('[data-pill]');
@@ -133,7 +168,7 @@ function updateView(state){
 }
 
 function updateSummary(tally, attention){
-  const total = KPIS.length;
+  const total = KPIS.filter(k => !k.fixed).length;
   ['ok', 'warn', 'bad'].forEach(s => { document.getElementById(`c-${s}`).textContent = tally[s]; });
 
   // Anillo: un segmento por estado, con una pequeña separación entre ellos
