@@ -4,6 +4,7 @@ const ICON_COPY = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect
 
 function renderNav(){
   const links = [
+    {id:'entrevista', label:'Entrevista'},
     ...AREAS.map(a => ({id:`area-${a.key}`, label:a.short})),
     {id:'registros', label:'Datos'}
   ];

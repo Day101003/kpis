@@ -127,6 +127,22 @@
   .manual-card h3{ min-height:0 }
 }
 
+/* ---------- Entrevista ---------- */
+.interview{
+  overflow-x:auto;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);
+}
+.interview table{ width:100%; border-collapse:collapse; font-size:14px }
+.interview th, .interview td{ padding:14px 18px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line) }
+.interview tbody tr:last-child td{ border-bottom:0 }
+.interview th{ font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); background:var(--surface-2) }
+.interview td:first-child{ width:1%; color:var(--gold); font-weight:600 }
+.interview td:nth-child(2){ width:45%; font-weight:500 }
+.interview ol{ margin:0; padding-left:18px; display:grid; gap:4px }
+
 /* ---------- Registros ---------- */
 .rec{
   position:relative; overflow:hidden;
