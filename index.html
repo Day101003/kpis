@@ -59,66 +59,16 @@
       <div class="hero-content">
         <div class="eyebrow">Investigación de caso · Joyería · Oct 2026</div>
         <h1>Indicadores para una joyería que hoy <em>lleva todo a mano</em></h1>
-        <p class="lede">Cada indicador sale de un problema que mencionó la persona entrevistada. Cambiá los números de cualquier ficha y el estado se recalcula: verde si cumple la meta, amarillo si está cerca y rojo si está lejos.</p>
-        <div class="legend" aria-hidden="true">
-          <span><i class="ok"></i>En meta</span>
-          <span><i class="warn"></i>Cerca</span>
-          <span><i class="bad"></i>Fuera de meta</span>
-        </div>
+        <p class="lede">Cada indicador sale de un problema que mencionó la persona entrevistada. Los valores son estimaciones iniciales, no mediciones reales.</p>
       </div>
     </header>
 
-    <!-- Indicadores estáticos destacados de Joyería / Manual -->
-    <div id="featured-kpis"></div>
-
-    <!-- Resumen -->
-    <section class="summary panel" id="resumen" aria-label="Resumen">
-      <div class="donut-wrap">
-        <svg class="donut" id="donut" viewBox="0 0 120 120" role="img" aria-label="Resumen de indicadores">
-          <circle class="donut-track" cx="60" cy="60" r="50"/>
-          <g transform="rotate(-90 60 60)">
-            <circle class="donut-seg ok" data-seg="ok" cx="60" cy="60" r="50" pathLength="100"/>
-            <circle class="donut-seg warn" data-seg="warn" cx="60" cy="60" r="50" pathLength="100"/>
-            <circle class="donut-seg bad" data-seg="bad" cx="60" cy="60" r="50" pathLength="100"/>
-            <circle class="donut-seg none" data-seg="none" cx="60" cy="60" r="50" pathLength="100"/>
-          </g>
-        </svg>
-        <div class="donut-center" aria-hidden="true">
-          <b id="donut-ok">0</b>
-          <span id="donut-total">en meta</span>
-        </div>
-      </div>
-
-      <div class="summary-body">
-        <div class="counts">
-          <div class="count ok"><b id="c-ok">0</b><span><i></i>En meta</span></div>
-          <div class="count warn"><b id="c-warn">0</b><span><i></i>Cerca</span></div>
-          <div class="count bad"><b id="c-bad">0</b><span><i></i>Fuera</span></div>
-        </div>
-        <div class="attn">
-          <div class="attn-title">Requieren atención primero</div>
-          <div class="chips" id="attn"></div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="copy-all" type="button">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
-          Copiar todas las fichas
-        </button>
-        <button class="btn" id="reset" type="button">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 3.5v5h5"/></svg>
-          Restaurar ejemplo
-        </button>
-      </div>
-    </section>
-
     <p class="note">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>
-      <span><b>Datos de ejemplo.</b> Los valores iniciales son supuestos realistas para una joyería pequeña, no cifras reales del negocio. Reemplazalos cuando tengan datos. Montos en colones (₡).</span>
+      <span><b>Datos de ejemplo.</b> Los valores son estimaciones iniciales para una joyería pequeña, no cifras reales del negocio.</span>
     </p>
 
-    <!-- Áreas e indicadores (se generan desde js/data.js) -->
+    <!-- Indicadores (se generan desde js/data.js) -->
     <main id="areas"></main>
 
     <!-- Registros que alimentan los indicadores -->
@@ -143,9 +93,6 @@
             <li>¿Vino de una consulta?</li>
             <li>¿Tuvo reclamo, cambio o devolución?</li>
           </ul>
-          <div class="feeds">Alimenta
-            <a class="tag" href="#k01">K·01</a><a class="tag" href="#k02">K·02</a><a class="tag" href="#k07">K·07</a><a class="tag" href="#k08">K·08</a>
-          </div>
         </article>
 
         <article class="rec">
@@ -160,9 +107,6 @@
             <li>¿Compró?</li>
             <li>Si no compró, por qué: precio, competencia, no había, otro</li>
           </ul>
-          <div class="feeds">Alimenta
-            <a class="tag" href="#k04">K·04</a><a class="tag" href="#k05">K·05</a><a class="tag" href="#k06">K·06</a><a class="tag" href="#k11">K·11</a>
-          </div>
         </article>
 
         <article class="rec">
@@ -177,9 +121,6 @@
             <li>Fecha de venta (vacía si sigue en vitrina)</li>
             <li>Resultado del conteo físico</li>
           </ul>
-          <div class="feeds">Alimenta
-            <a class="tag" href="#k01">K·01</a><a class="tag" href="#k02">K·02</a><a class="tag" href="#k03">K·03</a><a class="tag" href="#k09">K·09</a><a class="tag" href="#k10">K·10</a>
-          </div>
         </article>
       </div>
     </section>
@@ -188,7 +129,6 @@
   <footer class="wrap">
     <div class="footer">
       <span>Indicadores de la Joyería · Investigación de caso, oct. 2026</span>
-      <span>Los cambios se guardan solo en este navegador.</span>
     </div>
   </footer>
 
@@ -200,7 +140,6 @@
   <!-- Scripts (el orden importa: cada archivo usa lo definido en los anteriores) -->
   <script src="js/data.js" defer></script>
   <script src="js/kpi.js" defer></script>
-  <script src="js/store.js" defer></script>
   <script src="js/render.js" defer></script>
   <script src="js/clipboard.js" defer></script>
   <script src="js/main.js" defer></script>

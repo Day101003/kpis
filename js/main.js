@@ -1,70 +1,13 @@
 // Punto de entrada: arma la página y conecta los eventos.
 
-let state = loadState();
-
-function refresh(){
-  updateView(state);
-}
-
-/* ---------- Edición de datos y metas ---------- */
-
-document.addEventListener('input', e => {
-  const t = e.target;
-  if(t.dataset.k){
-    const n = parseFloat(t.value);
-    state.inputs[t.dataset.k][t.dataset.key] = isNaN(n) ? 0 : n;
-  }else if(t.dataset.meta){
-    const n = parseFloat(t.value);
-    if(isNaN(n)) return;
-    state.metas[t.dataset.meta] = n;
-  }else{
-    return;
-  }
-  saveState(state);
-  refresh();
-});
-
-/* ---------- Copiar fichas y resaltar al navegar ---------- */
+/* ---------- Copiar fichas ---------- */
 
 document.addEventListener('click', e => {
   const copyBtn = e.target.closest('[data-copy]');
   if(copyBtn){
     const k = KPIS.find(x => x.id === copyBtn.dataset.copy);
-    copyText(fichaText(k, state.inputs[k.id], state.metas[k.id]), `Ficha K·${k.id} copiada`);
-    return;
+    copyText(fichaText(k), `Ficha K·${k.id} copiada`);
   }
-  const link = e.target.closest('a[href^="#k"]');
-  if(link) flashCard(link.getAttribute('href').slice(1));
-});
-
-function flashCard(id){
-  const card = document.getElementById(id);
-  if(!card) return;
-  card.classList.remove('is-flash');
-  void card.offsetWidth; // reinicia la animación
-  card.classList.add('is-flash');
-}
-document.addEventListener('animationend', e => {
-  if(e.animationName === 'flash') e.target.classList.remove('is-flash');
-});
-
-document.getElementById('copy-all').addEventListener('click', () => {
-  const text = AREAS.map(a => {
-    const fichas = KPIS
-      .filter(k => k.area === a.key)
-      .map(k => fichaText(k, state.inputs[k.id], state.metas[k.id]));
-    return `== ${a.title.toUpperCase()} ==\nProblema detectado: ${a.quote}\n\n${fichas.join('\n\n')}`;
-  }).join('\n\n\n');
-  copyText(text, `Las ${KPIS.length} fichas se copiaron`);
-});
-
-document.getElementById('reset').addEventListener('click', () => {
-  if(!confirm('¿Restaurar los datos de ejemplo? Se perderán los números que cambiaste.')) return;
-  state = defaultState();
-  clearState();
-  renderAreas(state);
-  refresh();
-  toast('Datos de ejemplo restaurados');
 });
 
 /* ---------- Tema ---------- */
@@ -116,7 +59,6 @@ function setupNav(){
 /* ---------- Inicio ---------- */
 
 renderNav();
-renderAreas(state);
-refresh();
+renderAreas();
 setupNav();
 syncThemeButton();
